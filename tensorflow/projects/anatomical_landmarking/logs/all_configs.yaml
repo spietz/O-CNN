@@ -1,0 +1,118 @@
+DATA:
+  test:
+    adaptive: false
+    angle: &id001
+    - 180
+    - 180
+    - 180
+    axis: y
+    batch_size: 32
+    depth: 5
+    distort: false
+    drop_dim: &id002
+    - 8
+    - 32
+    dropout: &id003
+    - 0
+    - 0
+    dtype: points
+    full_depth: 2
+    interval: &id004
+    - 1
+    - 1
+    - 1
+    jitter: 0.0
+    location: ''
+    mask_ratio: 0.0
+    node_dis: false
+    node_feat: false
+    offset: 0.55
+    return_pts: false
+    scale: 0.0
+    shuffle: 1000
+    split_label: false
+    stddev: &id005
+    - 0
+    - 0
+    - 0
+    take: -1
+    uniform: false
+    x_alias: data
+    y_alias: label
+  train:
+    adaptive: false
+    angle: *id001
+    axis: y
+    batch_size: 32
+    depth: 5
+    distort: false
+    drop_dim: *id002
+    dropout: *id003
+    dtype: points
+    full_depth: 2
+    interval: *id004
+    jitter: 0.0
+    location: ''
+    mask_ratio: 0.0
+    node_dis: false
+    node_feat: false
+    offset: 0.55
+    return_pts: false
+    scale: 0.0
+    shuffle: 1000
+    split_label: false
+    stddev: *id005
+    take: -1
+    uniform: false
+    x_alias: data
+    y_alias: label
+DEPLOY:
+  input: dataset/test/sample700.vtk
+LOSS:
+  inst_num: 57449
+  label_smoothing: 0.0
+  momentum: 0.5
+  num_class: 40
+  seg_num: 100
+  sigma: 0.1
+  weight_decay: 0.0005
+  weights:
+  - 1.0
+  - 1.0
+MODEL:
+  bottleneck: 4
+  channel: 3
+  depth: 5
+  depth_out: 5
+  dropout:
+  - 0.0
+  factor: 1
+  name: ocnn
+  nout: 36
+  nouts:
+  - 40
+  resblock_num: 3
+  signal_abs: false
+  upsample: nearest
+SOLVER:
+  ckpt: logs/points/model/iter_008000.ckpt
+  ckpt_num: 100
+  gamma: 0.1
+  gpu:
+  - 0
+  ignore_var_name: &id006
+  - _name
+  learning_rate: 0.1
+  logdir: logs
+  lr_type: step
+  max_iter: 160000
+  run: train
+  step_size:
+  - 40000
+  test_every_iter: 1000
+  test_iter: 100
+  type: sgd
+  var_name: *id006
+  verbose: false
+SYS:
+  cmds: deploy.py --config configs/deploy_points.yaml DEPLOY.input dataset/test/sample700.vtk

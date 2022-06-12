@@ -97,6 +97,12 @@ _C.LOSS.label_smoothing  = 0.0        # The factor of label smoothing
 _C.SYS = CN()
 _C.SYS.cmds              = ''         # Used to backup the commands 
 
+
+# deploy
+_C.DEPLOY = CN()
+_C.DEPLOY.input          = ''         # Input to evaluate
+
+
 FLAGS = _C
 
 

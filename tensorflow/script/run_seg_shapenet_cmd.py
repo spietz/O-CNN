@@ -17,7 +17,7 @@ gpu = args.gpu
 mode = args.mode
 
 factor = 2
-batch_size = 32
+batch_size = 16
 ckpt = args.ckpt if mode != 'randinit' else '\'\''
 module = 'run_seg_shapenet_finetune.py' if mode != 'randinit' else 'run_seg_shapenet.py'
 script = 'python %s --config configs/seg_hrnet_shapenet_pts.yaml' % module

@@ -1,0 +1,46 @@
+# Resent with small rotations with testing accuarcy 92.5%
+SOLVER:
+  gpu: 0,
+  logdir: logs/points
+  run: train
+  max_iter: 10000
+  test_iter: 25
+  test_every_iter: 500
+  step_size: (5000,)
+  learning_rate: 0.1
+
+DATA:
+  train:
+    dtype: points
+    distort: False
+    depth: 5
+    axis: z 
+    angle: (5, 5, 5)
+    interval: (1, 1, 1)   # small rotation
+    scale: 0.25
+    jitter: 0.125
+    location: dataset/train_points.tfrecords
+    batch_size: 32
+    x_alias: data
+  test: 
+    dtype: points
+    distort: False
+    depth: 5
+    axis: z 
+    angle: (5, 5, 5)
+    interval: (1, 1, 1)
+    scale: 0.25
+    jitter: 0.125
+    location: dataset/test_points.tfrecords
+    shuffle: 0
+    batch_size: 1
+    x_alias: data
+
+MODEL:
+  name: ocnn
+  channel: 3
+  nout: 36
+  depth: 5
+
+LOSS:
+  weight_decay: 1e-6

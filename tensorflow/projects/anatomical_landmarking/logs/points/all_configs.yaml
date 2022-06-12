@@ -1,0 +1,124 @@
+DATA:
+  test:
+    adaptive: false
+    angle:
+    - 5
+    - 5
+    - 5
+    axis: z
+    batch_size: 1
+    depth: 5
+    distort: false
+    drop_dim: &id001
+    - 8
+    - 32
+    dropout: &id002
+    - 0
+    - 0
+    dtype: points
+    full_depth: 2
+    interval:
+    - 1
+    - 1
+    - 1
+    jitter: 0.125
+    location: dataset/test_points.tfrecords
+    mask_ratio: 0.0
+    node_dis: false
+    node_feat: false
+    offset: 0.55
+    return_pts: false
+    scale: 0.25
+    shuffle: 0
+    split_label: false
+    stddev: &id003
+    - 0
+    - 0
+    - 0
+    take: -1
+    uniform: false
+    x_alias: data
+    y_alias: label
+  train:
+    adaptive: false
+    angle:
+    - 5
+    - 5
+    - 5
+    axis: z
+    batch_size: 32
+    depth: 5
+    distort: false
+    drop_dim: *id001
+    dropout: *id002
+    dtype: points
+    full_depth: 2
+    interval:
+    - 1
+    - 1
+    - 1
+    jitter: 0.125
+    location: dataset/train_points.tfrecords
+    mask_ratio: 0.0
+    node_dis: false
+    node_feat: false
+    offset: 0.55
+    return_pts: false
+    scale: 0.25
+    shuffle: 1000
+    split_label: false
+    stddev: *id003
+    take: -1
+    uniform: false
+    x_alias: data
+    y_alias: label
+DEPLOY:
+  input: dataset/test/sample999.vtk
+LOSS:
+  inst_num: 57449
+  label_smoothing: 0.0
+  momentum: 0.5
+  num_class: 40
+  seg_num: 100
+  sigma: 0.1
+  weight_decay: 1.0e-06
+  weights:
+  - 1.0
+  - 1.0
+MODEL:
+  bottleneck: 4
+  channel: 3
+  depth: 5
+  depth_out: 5
+  dropout:
+  - 0.0
+  factor: 1
+  name: ocnn
+  nout: 36
+  nouts:
+  - 40
+  resblock_num: 3
+  signal_abs: false
+  upsample: nearest
+SOLVER:
+  ckpt: ''
+  ckpt_num: 100
+  gamma: 0.1
+  gpu:
+  - 0
+  ignore_var_name: &id004
+  - _name
+  learning_rate: 0.1
+  logdir: logs/points
+  lr_type: step
+  max_iter: 10000
+  run: train
+  step_size:
+  - 5000
+  test_every_iter: 500
+  test_iter: 25
+  type: sgd
+  var_name: *id004
+  verbose: false
+SYS:
+  cmds: deploy.py --config configs/points.yaml DEPLOY.input dataset/test/sample999.vtk
